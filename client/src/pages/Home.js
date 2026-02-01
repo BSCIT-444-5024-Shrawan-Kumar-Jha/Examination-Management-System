@@ -1,4 +1,4 @@
-import "./new.css";
+import "../styles/new.css";
 import { login, register } from "../api/auth.js";
 
 export function renderHome() {

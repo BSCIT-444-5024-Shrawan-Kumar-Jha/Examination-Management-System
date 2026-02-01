@@ -16,12 +16,14 @@ This project is designed to automate the complete examination lifecycle and redu
 - Publish exams for students
 - View exam statistics and student performance
 - Manage students (view and delete student records)
+- Manage feedback (view and delete student records)
 
 ### 👨‍🎓 Student Module
 - Secure registration and login
 - Attempt exams within a defined time duration
 - Automatic exam submission on time expiry
 - View exam results and best score.
+- Give feedback
 
 ---
 
@@ -71,6 +73,7 @@ The frontend and backend communicate through **internally developed REST APIs**.
 - **Exams** – Stores exam metadata and configuration  
 - **Questions** – Stores MCQ and direct questions linked to exams  
 - **Attempts** – Stores student exam attempts, answers, and scores  
+- **Feedback** - Stores student feedback
 
 ---
 

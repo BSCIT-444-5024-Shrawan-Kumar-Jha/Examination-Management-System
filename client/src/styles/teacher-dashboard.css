@@ -242,6 +242,17 @@ body {
 
 
 
+/* =========================
+   FIX: Stop Create Exam Button Stretching
+========================= */
+#create-exam-btn {
+  flex: 0 0 auto;   
+  width: auto;      
+  padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 6px;
+}
+
 /* ===============================
    ANIMATION
 =============================== */

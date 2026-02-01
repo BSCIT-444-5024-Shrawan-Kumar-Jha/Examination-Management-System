@@ -146,3 +146,14 @@
     transform: translateY(0);
   }
 }
+
+.feedback-form input,
+.feedback-form textarea {
+  color: #000 !important;          /* 🔥 TEXT VISIBLE */
+  background: #ffffff !important;  /* 🔥 WHITE BG */
+}
+
+.feedback-form input::placeholder,
+.feedback-form textarea::placeholder {
+  color: #777;
+}

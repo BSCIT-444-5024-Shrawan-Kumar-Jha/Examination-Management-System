@@ -35,9 +35,12 @@ export async function renderTeacherDashboard() {
           Create New Exam
         </button>
 
-        <!-- ✅ NEW BUTTON -->
         <button id="manage-students-btn" class="secondary-btn">
           Manage Students
+        </button>
+
+        <button id="see-feedback-btn" class="secondary-btn">
+          See Feedback
         </button>
       </div>
 
@@ -99,7 +102,11 @@ export async function renderTeacherDashboard() {
       const exams = Array.isArray(data) ? data : data?.exams || [];
       renderExamCards(exams);
     } catch {
-      content.innerHTML = `<div class="error-message">Failed to load exams</div>`;
+      content.innerHTML = `
+        <div class="error-message">
+          Failed to load exams
+        </div>
+      `;
     }
   }
 
@@ -139,10 +146,18 @@ export async function renderTeacherDashboard() {
   });
 
   // ======================
-  // MANAGE STUDENTS (SAFE)
+  // MANAGE STUDENTS
   // ======================
   document.getElementById("manage-students-btn").onclick = () => {
     history.pushState(null, "", "/teacher/students");
+    window.dispatchEvent(new Event("popstate"));
+  };
+
+  // ======================
+  // SEE FEEDBACK
+  // ======================
+  document.getElementById("see-feedback-btn").onclick = () => {
+    history.pushState(null, "", "/teacher/feedbacks");
     window.dispatchEvent(new Event("popstate"));
   };
 
@@ -181,7 +196,9 @@ function renderExamCards(exams) {
           (e) => `
         <div class="exam-card" data-id="${e.id}">
           <h3 class="exam-title">${e.title}</h3>
-          <div class="exam-audience">Audience: ${e.targetAudience}</div>
+          <div class="exam-audience">
+            Audience: ${e.targetAudience}
+          </div>
           <p class="exam-description">${e.description}</p>
           <div class="exam-meta">
             Created: ${new Date(e.createdAt).toLocaleDateString()}

@@ -4,166 +4,131 @@
 
 const API_BASE_URL = "http://localhost:3000/api";
 
-/**
- * Fetch all exams
- * @returns {Promise<Object>} - Response with exams array
- */
-export async function fetchExams() {
+/* =========================
+   HELPER
+========================= */
+function getAuthHeaders() {
   const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error("Not authenticated");
   }
 
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+}
+
+/* =========================
+   FETCH ALL EXAMS
+========================= */
+export async function fetchExams() {
   try {
     const response = await fetch(`${API_BASE_URL}/exams`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to fetch exams");
+      if (response.status === 401 || response.status === 403) {
+        throw new Error("Unauthorized");
+      }
+      throw new Error("Failed to fetch exams");
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    // 🔐 normalize response
+    return Array.isArray(data) ? data : data.exams || [];
   } catch (error) {
-    console.error("Error fetching exams:", error);
+    console.error("fetchExams error:", error);
     throw error;
   }
 }
 
-/**
- * Fetch exam by ID
- * @param {string} examId - The ID of the exam to fetch
- * @returns {Promise<Object>} - Response with exam object
- */
+/* =========================
+   FETCH EXAM BY ID
+========================= */
 export async function fetchExamById(examId) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    throw new Error("Not authenticated");
-  }
-
   try {
     const response = await fetch(`${API_BASE_URL}/exams/${examId}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to fetch exam");
+      throw new Error("Failed to fetch exam");
     }
 
     return await response.json();
   } catch (error) {
-    console.error(`Error fetching exam ${examId}:`, error);
+    console.error(`fetchExamById (${examId}) error:`, error);
     throw error;
   }
 }
 
-/**
- * Create a new exam
- * @param {Object} examData - The exam data to create
- * @returns {Promise<Object>} - Response with created exam
- */
+/* =========================
+   CREATE EXAM
+========================= */
 export async function createExam(examData) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    throw new Error("Not authenticated");
-  }
-
   try {
     const response = await fetch(`${API_BASE_URL}/exams`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(examData),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to create exam");
+      throw new Error("Failed to create exam");
     }
 
     return await response.json();
   } catch (error) {
-    console.error("Error creating exam:", error);
+    console.error("createExam error:", error);
     throw error;
   }
 }
 
-/**
- * Update an existing exam
- * @param {string} examId - The ID of the exam to update
- * @param {Object} examData - The updated exam data
- * @returns {Promise<Object>} - Updated exam object
- */
+/* =========================
+   UPDATE EXAM
+========================= */
 export async function updateExam(examId, examData) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    throw new Error("Not authenticated");
-  }
-
   try {
     const response = await fetch(`${API_BASE_URL}/exams/${examId}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(examData),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to update exam");
+      throw new Error("Failed to update exam");
     }
 
     return await response.json();
   } catch (error) {
-    console.error(`Error updating exam ${examId}:`, error);
+    console.error(`updateExam (${examId}) error:`, error);
     throw error;
   }
 }
 
-/**
- * Delete an exam
- * @param {string} examId - The ID of the exam to delete
- * @returns {Promise<Object>} - Response with success message
- */
+/* =========================
+   DELETE EXAM
+========================= */
 export async function deleteExam(examId) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    throw new Error("Not authenticated");
-  }
-
   try {
     const response = await fetch(`${API_BASE_URL}/exams/${examId}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to delete exam");
+      throw new Error("Failed to delete exam");
     }
 
     return await response.json();
   } catch (error) {
-    console.error(`Error deleting exam ${examId}:`, error);
+    console.error(`deleteExam (${examId}) error:`, error);
     throw error;
   }
 }

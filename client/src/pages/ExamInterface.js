@@ -7,7 +7,11 @@ import {
   uploadQuestionAttachment,
   fetchQuestionById,
 } from "../api/questions.js";
+
+import { getLoggedInUser } from "../api/auth.js"; // ✅ YEH LINE ADD KARO
+
 import "../styles/exam-interface.css";
+
 
 /**
  * Renders the exam editor interface
@@ -15,6 +19,18 @@ import "../styles/exam-interface.css";
  */
 export async function renderExamEditor(examId) {
   const app = document.getElementById("app");
+
+  // 🔐 ROLE + LOGIN CHECK (YAHI SABSE IMPORTANT HAI)
+  const user = getLoggedInUser();
+
+  if (!user || user.userType !== "teacher") {
+    alert("❌ Unauthorized access");
+    history.pushState(null, "", "/");
+    window.dispatchEvent(new Event("popstate"));
+    return;
+  }
+
+  // 👇 Iske baad hi UI aur API calls
   app.innerHTML = `
     <div class="exam-editor">
       <div class="loading">Loading exam details...</div>
@@ -25,11 +41,11 @@ export async function renderExamEditor(examId) {
     // Store the original examId for later use
     const originalExamId = examId;
 
-    // Fetch exam details and questions in parallel
     const [examResponse, questionsResponse] = await Promise.all([
       fetchExamById(examId),
       fetchQuestionsByExamId(examId),
     ]);
+
 
     // Extract the exam object from the response
     const exam = examResponse.exam || examResponse;

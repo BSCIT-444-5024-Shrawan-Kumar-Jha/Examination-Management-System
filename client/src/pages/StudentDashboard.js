@@ -28,6 +28,13 @@ export async function renderStudentExams() {
         </div>
       </header>
 
+      <!-- ACTION BAR -->
+      <div class="student-actions">
+        <button id="give-feedback-btn" class="primary-btn">
+          Give Feedback
+        </button>
+      </div>
+
       <!-- CONTENT -->
       <div class="student-exams">
         <div class="loading">Loading your exams...</div>
@@ -40,6 +47,12 @@ export async function renderStudentExams() {
   document.getElementById("logout-btn").onclick = () => {
     logout();
     history.pushState(null, "", "/");
+    window.dispatchEvent(new Event("popstate"));
+  };
+
+  // 💬 GIVE FEEDBACK BUTTON
+  document.getElementById("give-feedback-btn").onclick = () => {
+    history.pushState(null, "", "/student/feedback");
     window.dispatchEvent(new Event("popstate"));
   };
 

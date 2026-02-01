@@ -7,7 +7,7 @@
 
 The Online Examination Management System is a full-stack web application designed to conduct examinations in a secure, automated, and structured digital environment. Traditional examination systems rely heavily on manual processes such as paper-based exams, physical supervision, and manual evaluation, which often result in increased workload, delayed results, and higher chances of human error.
 
-This system provides a role-based platform where teachers can create, schedule, manage, and analyze examinations, while students can attempt exams online within a predefined time duration. The system supports Multiple Choice Questions (MCQs) as well as Direct/Descriptive Questions, making it suitable for real-world academic examinations. questions are evaluated automatically, and all exam attempts are securely stored for result analysis and performance tracking.
+This system provides a role-based platform where teachers can create, schedule, manage, and analyze examinations, while students can attempt exams online within a predefined time duration and give feedback. The system supports Multiple Choice Questions (MCQs) as well as Direct/Descriptive Questions, making it suitable for real-world academic examinations. questions are evaluated automatically, and all exam attempts are securely stored for result analysis and performance tracking.
 
 The frontend is developed using HTML, CSS, and Vanilla JavaScript with SPA-style navigation, while the backend is implemented using Node.js and Express.js. MongoDB is used as the primary database, and all communication between frontend and backend is handled using internally developed RESTful APIs, without using any third-party frontend frameworks or external services.
 
@@ -17,7 +17,7 @@ The frontend is developed using HTML, CSS, and Vanilla JavaScript with SPA-style
 
 With the rapid advancement of digital technologies, educational institutions are increasingly moving towards online solutions to improve efficiency and accuracy. One of the most critical areas requiring modernization is the examination system. Manual examination processes are time-consuming, difficult to manage, and lack scalability.
 
-The Online Examination Management System automates the entire examination lifecycle, including user management, exam creation, question handling, exam attempts, and result generation. The system ensures transparency, security, and scalability, making it suitable for institutions handling large numbers of students.
+The Online Examination Management System automates the entire examination lifecycle, including user management, exam creation, question handling, exam attempts,feedback and result generation. The system ensures transparency, security, and scalability, making it suitable for institutions handling large numbers of students.
 
 ---
 
@@ -55,7 +55,7 @@ The scope of the project includes:
 
 - User authentication and authorization  
 - Teacher dashboard for exam and student management  
-- Student dashboard for exam participation and best score viewing as per the paper
+- Student dashboard for exam participation, give feedback and best score viewing as per the paper
 - Online exam interface with timer and auto submission  
 - Result generation and exam analytics  
 
@@ -197,8 +197,20 @@ Stores student exam attempts.
 | created_at | Date | Created time |
 | updated_at | Date | Updated time |
 
-**Relationship:**  
-One student can attempt multiple exams, and one exam can have multiple attempts.
+
+### 8.5 Feedback collection
+
+
+Field Name	Data Type	Description
+_id (PK)	ObjectId	Auto-generated unique feedback ID
+name	     String	    Name of the user
+email	     String  	User email address
+message	     String	    Feedback message
+
+Automatically Managed Fields
+Field Name	Data Type	Description
+createdAt	Date	    Auto-generated creation time
+updatedAt	Date	    Auto-generated update time
 
 ---
 
@@ -219,6 +231,7 @@ One student can attempt multiple exams, and one exam can have multiple attempts.
 - Publish exams  
 - View statistics and performance  
 - Manage students (view & delete)  
+- Manage feedback (view & delete)
 
 ### 9.3 Student Module
 
@@ -227,6 +240,7 @@ One student can attempt multiple exams, and one exam can have multiple attempts.
 - Attempt exams with timer  
 - Auto submission  
 - View results 
+- Give feedback
 
 ---
 
@@ -291,88 +305,3 @@ All APIs follow REST principles.
 ## 16. CONCLUSION
 
 The Online Examination Management System provides a complete, secure, and scalable solution for conducting online examinations. With structured database design, role-based security, and SPA-based frontend, the system closely resembles real-world examination platforms and demonstrates strong full-stack development capabilities.
-
-
-
-Structure: client
-client
-├─ node_modules
-├─ public
-│  └─ logo.png
-├─ src
-│  ├─ api
-│  │  ├─ attempts.js
-│  │  ├─ auth.js
-│  │  ├─ exams.js
-│  │  ├─ questions.js
-│  │  └─ users.js
-│  │
-│  ├─ pages
-│  │  ├─ ExamInterface.js
-│  │  ├─ Home.js
-│  │  ├─ ManageStudents.js
-│  │  ├─ new.css 
-│  │  ├─ StatisticsPage.js
-│  │  ├─ StudentDashboard.js
-│  │  ├─ StudentExamInterface.js
-│  │  └─ TeacherDashboard.js
-│  │
-│  ├─ styles
-│  │  ├─ exam-interface.css
-│  │  ├─ main.css
-│  │  ├─ statistics-page.css
-│  │  ├─ student-dashboard.css
-│  │  ├─ student-exam.css
-│  │  ├─ teacher-dashboard.css
-│  │  └─ users.css
-│  │
-│  ├─ utils
-│  │  └─ helpers.js
-│  │
-│  ├─ main.js
-│  └─ style.css
-│
-├─ .gitignore
-├─ index.html
-├─ package-lock.json
-└─ package.json
-
-
-
-Structure: Server
-
-server
-├─ config
-│  ├─ db.js
-│  └─ jwt.js
-│
-├─ controllers
-│  ├─ attemptController.js
-│  ├─ authController.js
-│  ├─ examController.js
-│  ├─ questionController.js
-│  └─ userController.js
-│
-├─ middleware
-│  ├─ authMiddleware.js
-│  ├─ errorHandler.js
-│  └─ roleMiddleware.js
-│
-├─ models
-│  ├─ Attempt.js
-│  ├─ Exam.js
-│  ├─ Question.js
-│  └─ User.js
-│
-├─ routes
-│  ├─ attemptRoutes.js
-│  ├─ authRoutes.js
-│  ├─ examRoutes.js
-│  ├─ questionRoutes.js
-│  └─ userRoutes.js
-│
-├─ .env
-├─ .gitignore
-├─ package.json
-├─ package-lock.json
-└─ server.js

@@ -182,6 +182,124 @@ body {
   color: #6b7280;
 }
 
+/* =========================
+   FEEDBACK BUTTON
+========================= */
+.feedback-btn {
+  position: fixed;
+  right: 30px;
+  bottom: 40px;
+  background: linear-gradient(135deg, #00f2fe, #00f2fe);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.feedback-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   FEEDBACK MODAL
+========================= */
+.feedback-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.feedback-modal.hidden {
+  display: none;
+}
+
+.feedback-box {
+  background: #ffffff;
+  padding: 24px;
+  width: 380px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.feedback-box h3 {
+  margin-bottom: 14px;
+}
+
+.feedback-box textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  resize: none;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.submit-btn {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.feedback-action {
+  display: flex;
+  justify-content: flex-end;
+  margin: 30px 40px 0 0;
+}
+
+.feedback-action .primary-btn {
+  background: linear-gradient(135deg, #00f2fe, #00f2fe);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.feedback-action .primary-btn:hover {
+  transform: translateY(-2px);
+}
+.student-actions {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.student-actions .primary-btn {
+  padding: 10px 22px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 /* ===============================
    RESPONSIVE – TABLET
 =============================== */
@@ -193,6 +311,16 @@ body {
   .exam-cards {
     padding: 0 20px 50px;
   }
+}
+
+
+
+#give-feedback-btn {
+  width: auto;          
+  flex: 0 0 auto;       
+  padding: 8px 16px;    
+  font-size: 13px;
+  border-radius: 6px;
 }
 
 /* ===============================
