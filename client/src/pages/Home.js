@@ -71,7 +71,7 @@ export function renderHome() {
               <select name="userType" required>
                 <option value="" disabled selected>Select User Type</option>
                 <option value="student">Student</option>
-                <!--<option value="teacher">Teacher</option>--!>
+               <!-- <option value="teacher">Teacher</option>-->
               </select>
             </div>
 
