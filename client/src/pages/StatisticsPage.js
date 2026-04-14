@@ -1,6 +1,8 @@
 import { fetchExamById } from "../api/exams.js";
 import { fetchExamAttempts, fetchExamStatistics } from "../api/attempts.js";
 import "../styles/statistics-page.css";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 /**
  * Renders the exam statistics page
@@ -62,7 +64,7 @@ export async function renderStatisticsPage(examId) {
  */
 function renderStatisticsContent(app, exam, statistics, attempts) {
   app.innerHTML = `
-    <div class="statistics-page">
+    <div class="statistics-page" id="reportContent">
       <header class="stats-header">
         <div class="breadcrumb">
           <a href="/teacher/exams" id="back-to-dashboard" data-link="spa">Dashboard</a> / 
@@ -79,6 +81,7 @@ function renderStatisticsContent(app, exam, statistics, attempts) {
             exam.questions.length
           }</span>
         </p>
+        <button id="downloadPdf" class="pdf-btn">Download PDF</button>
       </header>
       
       <main class="stats-content">
@@ -162,6 +165,7 @@ function renderStatisticsContent(app, exam, statistics, attempts) {
 
   // Set up event listeners
   setupEventListeners(exam);
+  setupPdfDownload();
 }
 
 /**
@@ -665,4 +669,42 @@ function parseTimeString(timeString) {
   }
 
   return seconds;
+}
+
+
+
+function setupPdfDownload() {
+  const btn = document.getElementById("downloadPdf");
+  if (!btn) return;
+
+  btn.addEventListener("click", async () => {
+    const element = document.getElementById("reportContent");
+
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const imgWidth = 210;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= 295;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= 295;
+    }
+
+    pdf.save("Exam_Report.pdf");
+  });
 }

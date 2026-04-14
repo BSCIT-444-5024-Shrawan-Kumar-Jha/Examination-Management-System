@@ -302,3 +302,25 @@ button:hover {
     border-radius: 18px;
   }
 }
+
+
+.center-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #020617;
+  z-index: 9999;
+}
+
+
+.center-screen .auth-box {
+  margin: auto;
+}

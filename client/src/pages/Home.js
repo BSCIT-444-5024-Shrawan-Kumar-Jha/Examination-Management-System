@@ -40,6 +40,10 @@ export function renderHome() {
           </form>
 
           <p class="switch-text">
+            <span id="forgot-password-link">Forgot Password?</span>
+          </p>
+
+          <p class="switch-text">
             New here?
             <span id="show-register">Create an account</span>
           </p>
@@ -71,7 +75,7 @@ export function renderHome() {
               <select name="userType" required>
                 <option value="" disabled selected>Select User Type</option>
                 <option value="student">Student</option>
-               <!-- <option value="teacher">Teacher</option>-->
+              <!--  <option value="teacher">Teacher</option> -->
               </select>
             </div>
 
@@ -106,6 +110,7 @@ export function renderHome() {
   document.getElementById("login-form").onsubmit = async (e) => {
     e.preventDefault();
     const f = e.target;
+
     await login({
       email: f.email.value,
       password: f.password.value,
@@ -117,6 +122,7 @@ export function renderHome() {
   document.getElementById("register-form").onsubmit = async (e) => {
     e.preventDefault();
     const f = e.target;
+
     await register({
       firstName: f.firstName.value,
       lastName: f.lastName.value,
@@ -128,5 +134,114 @@ export function renderHome() {
       password: f.password.value,
       userType: f.userType.value,
     });
+  };
+
+  document.getElementById("forgot-password-link").onclick = () => {
+    renderForgotPassword();
+  };
+}
+
+// ======================
+// 📩 FORGOT PASSWORD (CENTER)
+// ======================
+function renderForgotPassword() {
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="center-screen">
+      <div class="auth-box">
+        <h2>Forgot Password</h2>
+        <input type="email" id="email" placeholder="Enter your email" />
+        <button id="sendOtp">Send OTP</button>
+        <p id="back">Back to Login</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("sendOtp").onclick = async () => {
+    const email = document.getElementById("email").value;
+
+    const res = await fetch("http://localhost:3000/api/auth/forgot-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+
+    if (res.ok) renderVerifyOtp(email);
+  };
+
+  document.getElementById("back").onclick = renderHome;
+}
+
+// ======================
+// 🔢 VERIFY OTP (CENTER)
+// ======================
+function renderVerifyOtp(email) {
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="center-screen">
+      <div class="auth-box">
+        <h2>Verify OTP</h2>
+        <input type="text" id="otp" placeholder="Enter OTP" />
+        <button id="verify">Verify</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("verify").onclick = async () => {
+    const otp = document.getElementById("otp").value;
+
+    const res = await fetch("http://localhost:3000/api/auth/verify-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, otp }),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+
+    if (res.ok) renderResetPassword(email);
+  };
+}
+
+// ======================
+// 🔐 RESET PASSWORD (CENTER)
+// ======================
+function renderResetPassword(email) {
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="center-screen">
+      <div class="auth-box">
+        <h2>Reset Password</h2>
+        <input type="password" id="newPass" placeholder="New Password" />
+        <button id="reset">Update Password</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("reset").onclick = async () => {
+    const newPassword = document.getElementById("newPass").value;
+
+    const res = await fetch("http://localhost:3000/api/auth/reset-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, newPassword }),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+
+    if (res.ok) renderHome();
   };
 }
