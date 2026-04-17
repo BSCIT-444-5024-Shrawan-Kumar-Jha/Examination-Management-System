@@ -1,4 +1,4 @@
-# 🎓 Online Examination Management System
+# 🎓 Examination Management System
 
 A full-stack web application designed to conduct and manage online examinations efficiently. This system provides separate dashboards for students and teachers, enabling seamless exam creation, participation, and evaluation.
 
